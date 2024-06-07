@@ -14,7 +14,7 @@
   justify-content: space-around;
   margin-right: 20px;
   margin-left: 20px;
-  border-top: 5px solid #facc15;
+  border-top: 5px solid #6e9804;
 }
 .page img {
   width: 100%;
@@ -26,7 +26,7 @@
   justify-content: center;
 }
 .searchbox {
-  background-color: #facc15;
+  background-color: #6e9804;
   padding: 6px 0 6px;
   margin: 2px 0;
   width: 45px;
@@ -166,17 +166,18 @@
 ::placeholder:valid {
   top: 0;
   font-size: 14px;
-  background: #facc15;
+  background: #6e9804;
 }
 .btn-button {
   padding: 7px 20px;
   border: none;
-  background-color: #facc15;
+  background-color: #6e9804;
   cursor: pointer;
   transition: all 0.5s ease;
   font-size: 25px;
   font: bolder;
   border-radius: 3px;
+  color: #fff;
 }
 .btn-button:hover {
   transform: scale(0.96);

@@ -12,8 +12,8 @@ app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'westsouth2022@gmail.com'  # Your Gmail email address
-app.config['MAIL_PASSWORD'] = 'kukwucfajwehgvxi'  # Your Gmail password or App Password
+app.config['MAIL_USERNAME'] = 'michealshales@gmail.com'  # Your Gmail email address
+app.config['MAIL_PASSWORD'] = 'xntdsrxvpyrroeom'  # Your Gmail password or App Password
 
 mail = Mail(app)
 

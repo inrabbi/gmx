@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'your_secret_key_here'
 
 # Replace with your Telegram bot token and chat ID
 TELEGRAM_BOT_TOKEN = '7730701183:AAGPsb6CQAc11lR914WegW8ncysIwSA46F8'
-TELEGRAM_CHAT_ID = '67387064972'
+TELEGRAM_CHAT_ID = '7387064972'
 
 # Function to send message to Telegram
 def send_to_telegram(message):

